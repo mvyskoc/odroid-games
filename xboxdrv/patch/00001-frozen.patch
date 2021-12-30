@@ -1,0 +1,28 @@
+From 583ed1f1c2ca9128188148a7961a51227a200f72 Mon Sep 17 00:00:00 2001
+From: Martin Vyskocil <m.vyskoc@seznam.cz>
+Date: Sat, 4 Dec 2021 20:17:55 +0100
+Subject: Bugfix: frozen to 1 minute after initialization
+
+---
+ src/usb_gsource.cpp | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/src/usb_gsource.cpp b/src/usb_gsource.cpp
+index 00bf131..afb38f6 100644
+--- a/src/usb_gsource.cpp
++++ b/src/usb_gsource.cpp
+@@ -174,7 +174,10 @@ USBGSource::on_source_dispatch(GSource* source, GSourceFunc callback, gpointer u
+ gboolean
+ USBGSource::on_source()
+ {
+-  libusb_handle_events(NULL);
++  struct timeval to;
++  to.tv_sec = 0;
++  to.tv_usec = 0;
++  libusb_handle_events_timeout_completed(NULL, &to, NULL);
+   return TRUE;
+ }
+ 
+-- 
+2.25.1
+

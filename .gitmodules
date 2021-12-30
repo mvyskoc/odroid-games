@@ -1,0 +1,9 @@
+[submodule "OpenXcom"]
+	path = openxcom/src
+	url = https://github.com/MeridianOXC/OpenXcom
+[submodule "xboxdrv"]
+	path = xboxdrv/src
+	url = https://github.com/xboxdrv/xboxdrv.git
+[submodule "sdl12-compat/src"]
+	path = sdl12compat/src
+	url = https://github.com/mvyskoc/sdl12-compat

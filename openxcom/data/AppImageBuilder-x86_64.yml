@@ -1,0 +1,110 @@
+# appimage-builder recipe see https://appimage-builder.readthedocs.io for details
+version: 1
+AppDir:
+  path: ${openxcom_APPDIR}
+  app_info:
+    id: openxcom
+    name: OpenXcom
+    icon: openxcom
+    version: "7.2"
+    exec: bin/bash
+    exec_args: run.sh $@
+  apt:
+    arch:
+    - amd64
+    allow_unauthenticated: true
+    sources:
+    - sourceline: deb http://cz.archive.ubuntu.com/ubuntu/ focal focal main restricted universe multiverse
+    include:
+      #- libgl1
+      #- libglvnd0
+      #- libglx0
+      # - libglib2.0-dev
+      - libwayland-egl1
+      - libsdl1.2debian
+      - libsdl2-2.0-0
+      - libglib2.0-0
+      - libxext6
+      - libmad0
+      - libxss1
+      - libxcb1
+      - libxinerama1
+      - libsdl-gfx1.2-5
+      - libudev1
+      - libyaml-cpp0.6
+      - libslang2
+      - libopenal1
+      - libpcre2-8-0
+      - libtiff5
+      - libjpeg-turbo8
+      - libvorbisenc2
+      - libreadline8
+      - libxfixes3
+      - libasyncns0
+      - libsdl-mixer1.2
+      - libxrandr2
+      - libtinfo6
+      - libncursesw6
+      - libselinux1
+      - libffi7
+      - liblz4-1
+      - libwrap0
+      - libxi6
+      - libstdc++6
+      - libxrender1
+      - libxau6
+      - libdbus-1-3
+      - libxkbcommon0
+      - libvorbis0a
+      - libbsd0
+      - libwayland-client0
+      - libx11-6
+      - libogg0
+      - libsndfile1
+      - libzstd1
+      - liblzma5
+      - libdbus-glib-1-2
+      - libpcre3
+      - libwayland-cursor0
+      - libxdmcp6
+      - libmount1
+      - libgcrypt20
+      - libwebp6
+      - libcaca0
+      - libgpg-error0
+      - libjack-jackd2-0
+      - libsystemd0
+      - libpulse0
+      - libvorbisfile3
+      - libpng16-16
+      - libxxf86vm1
+      - libmikmod3
+      - libapparmor1
+      - libfluidsynth2
+      - libasound2
+      - libinstpatch-1.0-2
+      - libxcursor1
+      - libusb-1.0-0
+      - libsdl-image1.2
+      - libblkid1
+      - libflac8
+      - libsndio7.0
+      - libjbig0    
+  files:
+    include:
+    - /bin/bash
+    - /usr/bin/killall
+    exclude:
+    - usr/share/man
+    - usr/share/doc/*/README.*
+    - usr/share/doc/*/changelog.*
+    - usr/share/doc/*/NEWS.*
+    - usr/share/doc/*/TODO.*
+  runtime:
+    path_mappings: []
+    env:
+      LD_PRELOAD: libapprun_hooks.so
+    
+AppImage:
+  arch: amd64
+  update-information: guess

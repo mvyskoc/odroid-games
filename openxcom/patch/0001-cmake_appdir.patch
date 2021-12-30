@@ -1,0 +1,82 @@
+From 93216262cdcad45a159620ce9a13979816db3ea1 Mon Sep 17 00:00:00 2001
+From: Martin Vyskocil <m.vyskoc@seznam.cz>
+Date: Wed, 29 Dec 2021 19:07:08 +0100
+Subject: [PATCH] Add cmake option USE_OPENGL for disable OpenGL Add support of
+ APPDIR directory
+
+---
+ CMakeLists.txt               | 18 ++++++++++++------
+ src/Engine/CrossPlatform.cpp | 13 +++++++++++--
+ 2 files changed, 23 insertions(+), 8 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 9b5b3a752..3bf0dc58a 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -10,6 +10,7 @@ set (CMAKE_CXX_STANDARD 17)
+ # use std=c++11 rather than std=gnu++11
+ #set (CMAKE_CXX_EXTENSIONS OFF)
+ 
++OPTION(  USE_OPENGL "Option description" ON) # Enabled by default 
+ option ( DEV_BUILD "Development Build. Disable this for release builds" ON )
+ option ( DUMP_CORE "Disables exception and segfault handling." OFF )
+ option ( BUILD_PACKAGE "Prepares build for creation of a package with CPack" ON )
+@@ -71,13 +72,18 @@ set ( DEPS_DIR "${default_deps_dir}" CACHE STRING "Dependencies directory" )
+ 
+ # Find OpenGL
+ set (OpenGL_GL_PREFERENCE LEGACY)
+-find_package ( OpenGL )
+-if ( NOT OPENGL_FOUND )
+-  message ( WARNING "Can't find OpenGL - continuing building without OpenGL support." )
+-  add_definitions(-D__NO_OPENGL)
++
++if ( USE_OPENGL )
++  find_package ( OpenGL )
++  if ( NOT OPENGL_FOUND )
++    message ( WARNING "Can't find OpenGL - continuing building without OpenGL support." )
++    add_definitions(-D__NO_OPENGL)
++  else ()
++    include_directories ( ${OPENGL_INCLUDE_DIR} )
++    message ( STATUS "OpenGL libraries: ${OPENGL_LIBRARIES}" )
++  endif ()
+ else ()
+-  include_directories ( ${OPENGL_INCLUDE_DIR} )
+-  message ( STATUS "OpenGL libraries: ${OPENGL_LIBRARIES}" )
++  add_definitions(-D__NO_OPENGL)
+ endif ()
+ 
+ if(NOT UNIX AND IS_DIRECTORY ${DEPS_DIR})
+diff --git a/src/Engine/CrossPlatform.cpp b/src/Engine/CrossPlatform.cpp
+index dadb7fa58..197ae8a28 100644
+--- a/src/Engine/CrossPlatform.cpp
++++ b/src/Engine/CrossPlatform.cpp
+@@ -228,6 +228,15 @@ static char const *getHome()
+ std::vector<std::string> findDataFolders()
+ {
+ 	std::vector<std::string> list;
++	std::string appdir = ""; //Path to root directory of AppImage
++	
++	if (const char * v = std::getenv("APPDIR")) {
++		appdir = std::string(v);
++	}
++	if ( (! appdir.empty()) && (appdir.back() == '/') ){
++          appdir.pop_back();
++    }
++
+ #ifdef __MORPHOS__
+ 	list.push_back("PROGDIR:");
+ 	return list;
+@@ -305,8 +314,8 @@ std::vector<std::string> findDataFolders()
+ #ifdef __APPLE__
+ 	list.push_back("/Users/Shared/OpenXcom/");
+ #else
+-	list.push_back("/usr/local/share/openxcom/");
+-	list.push_back("/usr/share/openxcom/");
++	list.push_back(appdir + "/usr/local/share/openxcom/");
++	list.push_back(appdir + "/usr/share/openxcom/");
+ #ifdef DATADIR
+ 	snprintf(path, MAXPATHLEN, "%s/", DATADIR);
+ 	list.push_back(path);
+-- 
+2.25.1
+
