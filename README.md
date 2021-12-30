@@ -19,17 +19,14 @@ Keyboard
 
 OpenXcom
 --------
-Download links for AARCH64 (Odroid GO Super)
 
-| SHASUM                                    | Link                    |
-| ----------------------------------------- | ----------------------- |
-| d338a20506b026d4231750bb758256afc160587f  | [OpenXcom-OGS-aarch64.7z]
-(https://webshare.cz/#/file/HHBFcRTpZT/openxcom-ogs-aarch64-7z)       |
+## Download compiled APPIMAGE
+aarch64 (Odroid GO Super)
 
-Download links for x86_64
-| SHASUM                                    | Link                    |
-| ----------------------------------------- | ----------------------- |
-| 05d4927b7a183e34a19c0cdf512fabe03916a4d3  | [OpenXcom-x86_64.7z]
-(https://webshare.cz/#/file/xmgJPTTNIe/openxcom-x86-64-7z)            |
+- [OpenXcom-OGS-aarch64.7z](https://webshare.cz/#/file/HHBFcRTpZT/openxcom-ogs-aarch64-7z), SHASUM: d338a20506b026d4231750bb758256afc160587f
+
+x86_64
+- [OpenXcom-x86_64.7z](https://webshare.cz/#/file/xmgJPTTNIe/openxcom-x86-64-7z), SHASUM: 05d4927b7a183e34a19c0cdf512fabe03916a4d3
+
 
 
