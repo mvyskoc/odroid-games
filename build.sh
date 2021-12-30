@@ -50,7 +50,7 @@ if [[ ! -d "${MODULE_DIR}" ]]; then
 fi
 
 # Update SRC folder if does not exist
-[[ ! -d ${SRC_DIR} ]] && git submodule update --init -- ${SRC_DIR}
+[[ ! -e "${SRC_DIR}/.git" ]] && git submodule update --init -- ${SRC_DIR}
 
 mkdir -p "${BUILD_DIR}"
 
